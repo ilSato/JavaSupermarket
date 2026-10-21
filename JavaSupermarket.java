@@ -62,6 +62,7 @@ public class JavaSupermarket {
 
     public static int AdToCart(Prodotto Prodotto){
 
+        System.out.println(Prodotto.nome + " aggiunto al Carrello.");
 
 
         return 0;
