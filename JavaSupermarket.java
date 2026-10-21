@@ -31,6 +31,11 @@ public class JavaSupermarket {
 
 
 
+        
+        Scanner Scanner = new Scanner(System.in);
+
+
+
 
         System.out.println("\nIl tuo Carrello è vuoto.");
 
@@ -52,6 +57,31 @@ public class JavaSupermarket {
 
         }
 
+        System.out.println("Dimmi cosa vuoi comprare");
+
+        String acquisto = Scanner.nextLine();
+
+        for(int j = 0; j < Catalogo.size(); j++){
+
+            if(Catalogo.get(j).nome.equalsIgnoreCase(acquisto)){
+                System.out.println("\nCorrispondenza trovata");
+
+                AdToCart(Catalogo.get(j), Carrello);
+                break;
+            }
+        }
+
+
+
+        System.out.println("Vuoi visualizzare il Carrello?");
+
+        String visualizza = Scanner.nextLine();
+
+        if(visualizza.equalsIgnoreCase("si")){
+
+            ShowCart(Carrello);
+
+        }
 
 
 
@@ -60,9 +90,24 @@ public class JavaSupermarket {
     }
 
 
-    public static int AdToCart(Prodotto Prodotto){
+    public static int AdToCart(Prodotto Prodotto, ArrayList<Prodotto> Carrello){
 
         System.out.println(Prodotto.nome + " aggiunto al Carrello.");
+
+        Carrello.add(Prodotto);
+
+
+        return 0;
+    }
+
+    public static int ShowCart(ArrayList<Prodotto> Carrello){
+
+        System.out.println("\nIl Carrello contiene: ");
+
+        for(Prodotto p : Carrello){
+            System.out.println(p.nome);
+        }
+        
 
 
         return 0;
