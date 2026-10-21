@@ -60,7 +60,7 @@ public class JavaSupermarket {
     }
 
 
-    public static AdToCart(Prodotto Prodotto){
+    public static int AdToCart(Prodotto Prodotto){
 
 
 
