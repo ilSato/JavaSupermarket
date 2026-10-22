@@ -46,7 +46,7 @@ public class JavaSupermarket {
 
         //Variabili
 
-        boolean visCar = false;
+        double totale = 0;
 
         
 
@@ -64,35 +64,49 @@ public class JavaSupermarket {
 
         }
 
-        System.out.println("Dimmi cosa vuoi comprare");
 
-        String acquisto = Scanner.nextLine();
 
-        for(int j = 0; j < Catalogo.size(); j++){
+        while(true){
 
-            if(Catalogo.get(j).nome.equalsIgnoreCase(acquisto)){
-                System.out.println("\nCorrispondenza trovata");
+            System.out.println("Vuoi visualizzare il Carrello o Fare Acquisti? (1 or 2)");
 
-                AdToCart(Catalogo.get(j), Carrello);
-                break;
+            String visualizza = Scanner.nextLine();
+
+            switch (visualizza) {
+                case "1":
+                    
+                    ShowCart(totale, Carrello);
+
+                    break;
+
+                case "2":
+
+                    System.out.println("Dimmi cosa vuoi comprare");
+
+                    String acquisto = Scanner.nextLine();
+
+                    for(int j = 0; j < Catalogo.size(); j++){
+
+                        if(Catalogo.get(j).nome.equalsIgnoreCase(acquisto)){
+                            System.out.println("\nCorrispondenza trovata");
+
+                            AdToCart(Catalogo.get(j), Carrello);
+                            break;
+                        }
+                    }
+                    
+                    break;
+            
+                default:
+
+                    System.out.println("No Corrispondenza");
+
+                    break;
             }
-        }
 
-
-
-        System.out.println("Vuoi visualizzare il Carrello?");
-
-        String visualizza = Scanner.nextLine();
-
-        if(visualizza.equalsIgnoreCase("si")){
-
-            ShowCart(Carrello);
+            System.out.println("\n");
 
         }
-
-
-
-        System.out.println("\n");
 
     }
 
@@ -107,17 +121,22 @@ public class JavaSupermarket {
         return 0;
     }
 
-    public static int ShowCart(ArrayList<Prodotto> Carrello){
+    public static double ShowCart(double totale, ArrayList<Prodotto> Carrello){
+
+        for(Prodotto p : Carrello){
+            totale += p.prezzo;
+        } 
 
         System.out.println("\nIl Carrello contiene: ");
 
         for(Prodotto p : Carrello){
-            System.out.println(p.nome);
+            System.out.println(p.nome + ", " +p.prezzo + " Euro");
         }
+
+        System.out.println("Totale: " + totale);
         
 
-
-        return 0;
+        return totale;
     }
 
 
