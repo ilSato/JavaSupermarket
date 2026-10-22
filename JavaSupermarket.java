@@ -26,27 +26,34 @@ public class JavaSupermarket {
 
     public static void main(String[] args) {
 
+        //ArrayList
+
         ArrayList <Prodotto> Catalogo = new ArrayList<>();
         ArrayList <Prodotto> Carrello = new ArrayList<>();
+    
 
-
-
-        
-        Scanner Scanner = new Scanner(System.in);
-
-
-
-
-        System.out.println("\nIl tuo Carrello è vuoto.");
-
-        System.out.println("\nVuoi comprare qualcosa?");
-
-
+        //Catalogo
 
         Catalogo.add(new Prodotto("Pane a Fette", 2.50, 0));
         Catalogo.add(new Prodotto("Marmellata", 4.00, 0));
         Catalogo.add(new Prodotto("Nutella", 5.20, 0));
 
+
+        //Scanner
+        
+        Scanner Scanner = new Scanner(System.in);
+        
+
+        //Variabili
+
+        boolean visCar = false;
+
+        
+
+
+        //Code
+        
+        System.out.println("\nVuoi comprare qualcosa?");
 
 
         System.out.println("\nSugli scaffali c'è: ");
