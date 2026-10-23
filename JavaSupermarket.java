@@ -68,40 +68,28 @@ public class JavaSupermarket {
 
         while(true){
 
-            System.out.println("Vuoi visualizzare il Carrello o Fare Acquisti? (1 or 2)");
+            System.out.println("Scrivi 'Carrello' per vedere il tuo Carrello oppure ciò che vuoi comprare per aggiungerlo.");
 
             String visualizza = Scanner.nextLine();
 
-            switch (visualizza) {
-                case "1":
-                    
-                    ShowCart(totale, Carrello);
+            if (visualizza.equalsIgnoreCase("carrello")) {
 
-                    break;
+                ShowCart(totale, Carrello);
 
-                case "2":
+            }
+            else{
 
-                    System.out.println("Dimmi cosa vuoi comprare");
+                String acquisto = visualizza;
 
-                    String acquisto = Scanner.nextLine();
+                for(int j = 0; j < Catalogo.size(); j++){
 
-                    for(int j = 0; j < Catalogo.size(); j++){
+                    if(Catalogo.get(j).nome.equalsIgnoreCase(acquisto)){
+                        System.out.println("\nCorrispondenza trovata");
 
-                        if(Catalogo.get(j).nome.equalsIgnoreCase(acquisto)){
-                            System.out.println("\nCorrispondenza trovata");
-
-                            AdToCart(Catalogo.get(j), Carrello);
-                            break;
-                        }
+                        AdToCart(Catalogo.get(j), Carrello);
+                        break;
                     }
-                    
-                    break;
-            
-                default:
-
-                    System.out.println("No Corrispondenza");
-
-                    break;
+                }
             }
 
             System.out.println("\n");
@@ -133,7 +121,7 @@ public class JavaSupermarket {
             System.out.println(p.nome + ", " +p.prezzo + " Euro");
         }
 
-        System.out.println("Totale: " + totale);
+        System.out.println("Totale: " + totale + " Euro");
         
 
         return totale;
