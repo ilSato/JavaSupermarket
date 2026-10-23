@@ -59,6 +59,46 @@ public class JavaSupermarket {
         
         System.out.println("\nVuoi comprare qualcosa?");
 
+        ShowCatalogue(Catalogo);
+
+
+
+        while(true){
+
+            System.out.println("\nScrivi 'Carrello' per vedere il tuo Carrello, 'Catalogo' per vedere il Catalogo oppure ciò che vuoi comprare per aggiungerlo nel formato [Prodotto + Invio + Quantità].");
+
+            String visualizza = scanner.nextLine();
+
+            switch (visualizza.toLowerCase()) {
+                case "carrello":
+                    ShowCart(totale, Carrello);
+
+                    break;
+
+                case "catalogo":
+
+                    ShowCatalogue(Catalogo);
+                
+                    break;
+            
+                default:
+                    quantita = intScanner.nextInt();
+
+                    String acquisto = visualizza;
+
+                    AdToCart(Carrello, Catalogo, acquisto, quantita);
+
+                    break;
+            }
+
+            quantita = 0;
+
+        }
+
+    }
+
+
+    public static void ShowCatalogue(ArrayList<Prodotto> Catalogo){
 
         System.out.println("\nSugli scaffali c'è: ");
 
@@ -67,40 +107,10 @@ public class JavaSupermarket {
             System.out.println(Catalogo.get(i).nome);
 
         }
-
-
-
-        while(true){
-
-            System.out.println("Scrivi 'Carrello' per vedere il tuo Carrello oppure ciò che vuoi comprare per aggiungerlo nel formato [Prodotto + Invio + Quantità].");
-
-            String visualizza = scanner.nextLine();
-
-            if (visualizza.equalsIgnoreCase("carrello")) {
-
-                ShowCart(totale, Carrello);
-
-            }
-            else{
-
-                quantita = intScanner.nextInt();
-
-                String acquisto = visualizza;
-
-                AdToCart(Carrello, Catalogo, acquisto, quantita);
-
-            }
-
-            quantita = 0;
-
-            System.out.println("\n");
-
-        }
-
     }
 
 
-    public static int AdToCart(ArrayList<Prodotto> Carrello, ArrayList<Prodotto> Catalogo, String acquisto, int quantita){
+    public static void AdToCart(ArrayList<Prodotto> Carrello, ArrayList<Prodotto> Catalogo, String acquisto, int quantita){
 
         int notFound = 0;
 
@@ -129,8 +139,8 @@ public class JavaSupermarket {
 
         }
 
-        return 0;
     }
+
 
     public static double ShowCart(double totale, ArrayList<Prodotto> Carrello){
 
@@ -183,6 +193,5 @@ public class JavaSupermarket {
 
         return totale;
     }
-
 
 }
