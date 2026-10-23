@@ -52,8 +52,6 @@ public class JavaSupermarket {
         double totale = 0;
         int quantita = 0;
 
-        
-
 
         //Code
         
@@ -62,10 +60,9 @@ public class JavaSupermarket {
         ShowCatalogue(Catalogo);
 
 
-
         while(true){
 
-            System.out.println("\nScrivi 'Carrello' per vedere il tuo Carrello, 'Catalogo' per vedere il Catalogo oppure ciò che vuoi comprare per aggiungerlo nel formato [Prodotto + Invio + Quantità].");
+            System.out.println("\nScrivi 'Carrello' per vedere il tuo Carrello, 'Catalogo' per vedere il Catalogo, 'Clear' per Svuotare il Carrello oppure ciò che vuoi comprare per aggiungerlo nel formato [Prodotto + Invio + Quantità].");
 
             String visualizza = scanner.nextLine();
 
@@ -78,6 +75,14 @@ public class JavaSupermarket {
                 case "catalogo":
 
                     ShowCatalogue(Catalogo);
+                
+                    break;
+
+                case "clear":
+
+                    Carrello.clear();
+
+                    System.out.println("\nCarrello Svuotato");
                 
                     break;
             
@@ -145,6 +150,7 @@ public class JavaSupermarket {
     public static double ShowCart(double totale, ArrayList<Prodotto> Carrello){
 
         Boolean addOne = false;
+        Boolean hasMoreItems = false;
 
 
         Carrello.sort(Comparator.comparing(p -> p.nome));
@@ -168,13 +174,19 @@ public class JavaSupermarket {
             }
             else{
                 nome = "Via via vieni via con me";
-                addOne = true;
+
+                if(hasMoreItems){
+                    addOne = true;
+                    
+                }
             }
 
             if(Carrello.get(y).nome.equals(nome)){
                 num ++;
             }
             else{
+
+                hasMoreItems = true;
 
                 if(addOne){
                     num ++;
@@ -187,6 +199,8 @@ public class JavaSupermarket {
             }
 
         }
+
+        hasMoreItems = false;
 
         System.out.println("Totale: " + totale + " Euro");
         
