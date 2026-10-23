@@ -41,7 +41,8 @@ public class JavaSupermarket {
 
         //Scanner
         
-        Scanner Scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
+        Scanner intScanner = new Scanner(System.in);
         
 
         //Variabili
@@ -70,7 +71,7 @@ public class JavaSupermarket {
 
             System.out.println("Scrivi 'Carrello' per vedere il tuo Carrello oppure ciò che vuoi comprare per aggiungerlo.");
 
-            String visualizza = Scanner.nextLine();
+            String visualizza = scanner.nextLine();
 
             if (visualizza.equalsIgnoreCase("carrello")) {
 
@@ -81,15 +82,8 @@ public class JavaSupermarket {
 
                 String acquisto = visualizza;
 
-                for(int j = 0; j < Catalogo.size(); j++){
+                AdToCart(Carrello, Catalogo, acquisto);
 
-                    if(Catalogo.get(j).nome.equalsIgnoreCase(acquisto)){
-                        System.out.println("\nCorrispondenza trovata");
-
-                        AdToCart(Catalogo.get(j), Carrello);
-                        break;
-                    }
-                }
             }
 
             System.out.println("\n");
@@ -99,12 +93,33 @@ public class JavaSupermarket {
     }
 
 
-    public static int AdToCart(Prodotto Prodotto, ArrayList<Prodotto> Carrello){
+    public static int AdToCart(ArrayList<Prodotto> Carrello, ArrayList<Prodotto> Catalogo, String acquisto){
 
-        System.out.println(Prodotto.nome + " aggiunto al Carrello.");
+        //Scanner
 
-        Carrello.add(Prodotto);
+        Scanner intScanner = new Scanner(System.in);
 
+
+        //Code
+
+        for(int j = 0; j < Catalogo.size(); j++){
+
+            if(Catalogo.get(j).nome.equalsIgnoreCase(acquisto)){
+                System.out.println("\nCorrispondenza trovata. \nChe Quantita ne vuoi Acquistare?");
+
+                int quantita = intScanner.nextInt();
+
+                for(int x = 0; x < quantita; x++){
+
+                    Carrello.add(Catalogo.get(j));
+
+                }
+
+                System.out.println(quantita + " " + Catalogo.get(j).nome + " aggiunto al Carrello.");
+
+                break;
+            }
+        }
 
         return 0;
     }
