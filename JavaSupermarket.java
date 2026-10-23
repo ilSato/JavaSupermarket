@@ -28,6 +28,13 @@ class Prodotto {
 }
 
 
+class DatiUtente {
+
+    double money;
+
+}
+
+
 public class JavaSupermarket {
 
 
@@ -56,13 +63,15 @@ public class JavaSupermarket {
         //Variabili
 
         double totale = 0;
-        double money = 50.00;
+        double money = 0;
         int quantita = 0;
 
 
         //Code
 
         Carrello = PullCart();
+
+        money = PullBalance();
         
         System.out.println("\nVuoi comprare qualcosa?");
 
@@ -71,7 +80,9 @@ public class JavaSupermarket {
 
         while(true){
 
-            System.out.println("\nScrivi 'Carrello' per vedere il tuo Carrello, 'Catalogo' per vedere il Catalogo, 'Clear' per Svuotare il Carrello, 'Money' per vedere i soldi rimanenti, 'Pay' per acquistare i Prodotti nel Carrello oppure ciò che vuoi comprare per aggiungerlo nel formato [Prodotto + Invio + Quantità].");
+            totale = CalcTotal(totale, Carrello);
+
+            System.out.println("\nScrivi 'Carrello' per vedere il tuo Carrello, 'Catalogo' per vedere il Catalogo, 'Clear' per Svuotare il Carrello, 'Remove' per rimuovere un singolo tipo di prodotto nella Quantità desiderata, 'Money' per vedere i soldi rimanenti, 'Pay' per acquistare i Prodotti nel Carrello oppure ciò che vuoi comprare per aggiungerlo nel formato [Prodotto + Invio + Quantità].");
 
             String visualizza = scanner.nextLine();
 
@@ -91,7 +102,19 @@ public class JavaSupermarket {
 
                     Carrello.clear();
 
+                    SaveCart(Carrello);
+
                     System.out.println("\nCarrello Svuotato");
+                
+                    break;
+
+                case "remove":
+
+                    Carrello = RemoveFromCart(Carrello);
+
+                    SaveCart(Carrello);
+
+                    System.out.println("\nElemento/i Rimosso/i");
                 
                     break;
 
@@ -106,6 +129,8 @@ public class JavaSupermarket {
                     money = Pay(money, totale);
 
                     Carrello.clear();
+
+                    SaveBalance(money);
 
                     totale = 0;
                 
@@ -284,7 +309,7 @@ public class JavaSupermarket {
     public static double Pay(double money, double totale){
 
         if(money >= totale){
-            
+
             money -= totale;
 
             System.out.println("\nDevi Pagare " + totale + " Euro");
@@ -310,6 +335,80 @@ public class JavaSupermarket {
         }
 
         return totale;
+    }
+
+
+    public static ArrayList<Prodotto> RemoveFromCart(ArrayList<Prodotto> Carrello){
+
+        Scanner scanner = new Scanner(System.in);
+
+        String nome = scanner.nextLine();
+
+        int quantita = scanner.nextInt();
+
+        for(int j = 0; j < quantita; j++){
+
+            for(Prodotto p : Carrello){
+
+                if(nome.equalsIgnoreCase(p.nome)){
+
+                    Carrello.remove(p);
+
+                    break;
+                }
+            }
+        }
+
+        SaveCart(Carrello);
+
+    
+        return Carrello;
+    }
+
+
+    public static void SaveBalance(double money){
+
+        Gson gson = new Gson();
+
+        DatiUtente dati = new DatiUtente();
+
+        dati.money = money;
+
+        String jsonString = gson.toJson(dati);
+
+        try{
+            FileWriter writer = new FileWriter("DatiUtente.json");
+            writer.write(jsonString);
+            writer.close();
+            System.out.println("\n     *Il Bilancio è stato salvato*");
+
+        } catch(IOException a){
+            a.printStackTrace();
+        }
+    }
+
+
+    public static Double PullBalance(){
+
+        Gson gson = new Gson();
+
+        try (FileReader fileReader = new FileReader("DatiUtente.json")){
+
+            DatiUtente dati = gson.fromJson(fileReader, DatiUtente.class);
+
+            System.out.println("\n     *Saldo precedente recuperato*");
+
+            if(dati == null){
+                System.out.println("\n     *Nessun File trovato*");
+                return 50.0;
+            }
+
+            return dati.money;
+
+        } catch (IOException e) {
+            System.out.println("\n     *Nessun Dato Utente trovato*");
+            return 50.0;
+        }
     }
 
 }
