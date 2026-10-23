@@ -138,9 +138,46 @@ public class JavaSupermarket {
 
         System.out.println("\nIl Carrello contiene: ");
 
+        int num = 1;
+
+        String nome = "Via via. Vieni via con me";
+
+
+        for(int y = 0; y < Carrello.size(); y++){
+
+            if(y + 1 < Carrello.size()){
+                nome = Carrello.get(y+1).nome;
+            }
+            else{
+                nome = "Via via vieni via con me";
+            }
+
+            if(Carrello.get(y).nome.equals(nome)){
+                num ++;
+            }
+            else{
+
+                System.out.println(Carrello.get(y).nome + " x " + num + ", " + Carrello.get(y).prezzo*num + " Euro");
+
+                num = 0;
+            }
+
+        }
+
+
+
         for(Prodotto p : Carrello){
 
-            System.out.println(p.nome + ", " +p.prezzo + " Euro");
+            /* if( ){
+                    System.out.println(p.nome + ", " +p.prezzo + " Euro");
+
+                }
+                else{
+                    
+                }
+
+                */
+
         }
 
         System.out.println("Totale: " + totale + " Euro");
