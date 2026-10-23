@@ -1,7 +1,5 @@
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.Collections;
-
 import java.util.Comparator;
 
 
@@ -40,6 +38,7 @@ public class JavaSupermarket {
         Catalogo.add(new Prodotto("Pane a Fette", 2.50, 0));
         Catalogo.add(new Prodotto("Marmellata", 4.00, 0));
         Catalogo.add(new Prodotto("Nutella", 5.20, 0));
+        Catalogo.add(new Prodotto("Pesce Fresco", 11.30, 0));
 
 
         //Scanner
@@ -51,6 +50,7 @@ public class JavaSupermarket {
         //Variabili
 
         double totale = 0;
+        int quantita = 0;
 
         
 
@@ -72,7 +72,7 @@ public class JavaSupermarket {
 
         while(true){
 
-            System.out.println("Scrivi 'Carrello' per vedere il tuo Carrello oppure ciò che vuoi comprare per aggiungerlo.");
+            System.out.println("Scrivi 'Carrello' per vedere il tuo Carrello oppure ciò che vuoi comprare per aggiungerlo nel formato [Prodotto + Invio + Quantità].");
 
             String visualizza = scanner.nextLine();
 
@@ -83,11 +83,15 @@ public class JavaSupermarket {
             }
             else{
 
+                quantita = intScanner.nextInt();
+
                 String acquisto = visualizza;
 
-                AdToCart(Carrello, Catalogo, acquisto);
+                AdToCart(Carrello, Catalogo, acquisto, quantita);
 
             }
+
+            quantita = 0;
 
             System.out.println("\n");
 
@@ -96,21 +100,14 @@ public class JavaSupermarket {
     }
 
 
-    public static int AdToCart(ArrayList<Prodotto> Carrello, ArrayList<Prodotto> Catalogo, String acquisto){
+    public static int AdToCart(ArrayList<Prodotto> Carrello, ArrayList<Prodotto> Catalogo, String acquisto, int quantita){
 
-        //Scanner
-
-        Scanner intScanner = new Scanner(System.in);
-
-
-        //Code
+        int notFound = 0;
 
         for(int j = 0; j < Catalogo.size(); j++){
 
             if(Catalogo.get(j).nome.equalsIgnoreCase(acquisto)){
-                System.out.println("\nCorrispondenza trovata. \nChe Quantita ne vuoi Acquistare?");
-
-                int quantita = intScanner.nextInt();
+                System.out.println("\nCorrispondenza trovata.");
 
                 for(int x = 0; x < quantita; x++){
 
@@ -120,14 +117,25 @@ public class JavaSupermarket {
 
                 System.out.println(quantita + " " + Catalogo.get(j).nome + " aggiunto al Carrello.");
 
+                notFound = j;
+
                 break;
             }
+        }
+
+
+        if(Catalogo.get(notFound).nome.equalsIgnoreCase(acquisto) == false){
+            System.out.println("\nNessuna Corrispondenza trovata.");
+
         }
 
         return 0;
     }
 
     public static double ShowCart(double totale, ArrayList<Prodotto> Carrello){
+
+        Boolean addOne = false;
+
 
         Carrello.sort(Comparator.comparing(p -> p.nome));
 
@@ -150,6 +158,7 @@ public class JavaSupermarket {
             }
             else{
                 nome = "Via via vieni via con me";
+                addOne = true;
             }
 
             if(Carrello.get(y).nome.equals(nome)){
@@ -157,26 +166,15 @@ public class JavaSupermarket {
             }
             else{
 
-                System.out.println(Carrello.get(y).nome + " x " + num + ", " + Carrello.get(y).prezzo*num + " Euro");
+                if(addOne){
+                    num ++;
+                }
+
+                System.out.println(Carrello.get(y).nome + " x" + num + ", " + Carrello.get(y).prezzo*num + " Euro");
 
                 num = 0;
+                addOne = false;
             }
-
-        }
-
-
-
-        for(Prodotto p : Carrello){
-
-            /* if( ){
-                    System.out.println(p.nome + ", " +p.prezzo + " Euro");
-
-                }
-                else{
-                    
-                }
-
-                */
 
         }
 
