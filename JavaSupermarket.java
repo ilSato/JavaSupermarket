@@ -56,6 +56,7 @@ public class JavaSupermarket {
         //Variabili
 
         double totale = 0;
+        double money = 50.00;
         int quantita = 0;
 
 
@@ -70,7 +71,7 @@ public class JavaSupermarket {
 
         while(true){
 
-            System.out.println("\nScrivi 'Carrello' per vedere il tuo Carrello, 'Catalogo' per vedere il Catalogo, 'Clear' per Svuotare il Carrello oppure ciò che vuoi comprare per aggiungerlo nel formato [Prodotto + Invio + Quantità].");
+            System.out.println("\nScrivi 'Carrello' per vedere il tuo Carrello, 'Catalogo' per vedere il Catalogo, 'Clear' per Svuotare il Carrello, 'Money' per vedere i soldi rimanenti, 'Pay' per acquistare i Prodotti nel Carrello oppure ciò che vuoi comprare per aggiungerlo nel formato [Prodotto + Invio + Quantità].");
 
             String visualizza = scanner.nextLine();
 
@@ -93,6 +94,22 @@ public class JavaSupermarket {
                     System.out.println("\nCarrello Svuotato");
                 
                     break;
+
+                case "money":
+
+                    System.out.println("\nHai " + money + " Euro");
+                
+                    break;
+
+                case "pay":
+
+                    money = Pay(money, totale);
+
+                    Carrello.clear();
+
+                    totale = 0;
+                
+                    break;
             
                 default:
                     quantita = intScanner.nextInt();
@@ -100,6 +117,8 @@ public class JavaSupermarket {
                     String acquisto = visualizza;
 
                     AdToCart(Carrello, Catalogo, acquisto, quantita);
+
+                    totale = CalcTotal(totale, Carrello);
 
                     break;
             }
@@ -205,18 +224,16 @@ public class JavaSupermarket {
     }
 
 
-    public static double ShowCart(double totale, ArrayList<Prodotto> Carrello){
+    public static void ShowCart(double totale, ArrayList<Prodotto> Carrello){
 
         Boolean addOne = false;
         Boolean hasMoreItems = false;
 
+        CalcTotal(totale, Carrello);
+
 
         Carrello.sort(Comparator.comparing(p -> p.nome));
-
-
-        for(Prodotto p : Carrello){
-            totale += p.prezzo;
-        } 
+ 
 
         System.out.println("\nIl Carrello contiene: ");
 
@@ -261,9 +278,40 @@ public class JavaSupermarket {
         hasMoreItems = false;
 
         System.out.println("Totale: " + totale + " Euro");
+    }
+
+
+    public static double Pay(double money, double totale){
+
+        if(money >= totale){
+            
+            money -= totale;
+
+            System.out.println("\nDevi Pagare " + totale + " Euro");
+            System.out.println("Hai Comprato i Prodotti nel Carrello");
+            System.out.println("Hai " + money + " Euro");
+
+        }
+        else{
+            System.out.println("Non hai abbastanza soldi");
+        }
+
+        return money;
         
+    }
+
+
+    public static double CalcTotal(double totale, ArrayList<Prodotto> Carrello){
+
+        totale = 0;
+
+        for(Prodotto p : Carrello){
+            totale += p.prezzo;
+        }
 
         return totale;
     }
 
 }
+
+
