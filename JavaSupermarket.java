@@ -1,6 +1,8 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Comparator;
+import com.google.gson.Gson;
+import java.io.FileWriter;
 
 
 
@@ -177,7 +179,7 @@ public class JavaSupermarket {
 
                 if(hasMoreItems){
                     addOne = true;
-                    
+
                 }
             }
 
