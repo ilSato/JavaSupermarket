@@ -2,8 +2,11 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Comparator;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import java.io.FileWriter;
+import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Type;
 
 
 
@@ -57,6 +60,8 @@ public class JavaSupermarket {
 
 
         //Code
+
+        Carrello = PullCart();
         
         System.out.println("\nVuoi comprare qualcosa?");
 
@@ -101,9 +106,6 @@ public class JavaSupermarket {
 
             quantita = 0;
 
-
-            SaveCart(Carrello);
-
         }
 
     }
@@ -125,6 +127,33 @@ public class JavaSupermarket {
             a.printStackTrace();
         }
 
+    }
+
+
+    public static ArrayList<Prodotto> PullCart(){
+
+        Gson gson = new Gson();
+
+        try{
+
+            FileReader fileReader = new FileReader("Carrello.json");
+
+            Type tipoLista = new TypeToken<ArrayList<Prodotto>>(){}.getType();
+
+            ArrayList<Prodotto> OldCarrello = gson.fromJson(fileReader, tipoLista);
+
+            fileReader.close();
+
+            System.out.println("\n     *Carrello Precedente Recuperato*");
+
+            return OldCarrello;
+
+        }catch(IOException e){
+            System.out.println("\n     *Nessun Carrello Trovato*");
+
+            return new ArrayList<>();
+
+        }
 
     }
 
@@ -169,6 +198,9 @@ public class JavaSupermarket {
             System.out.println("\nNessuna Corrispondenza trovata.");
 
         }
+
+
+        SaveCart(Carrello);
 
     }
 
