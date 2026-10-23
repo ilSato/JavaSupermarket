@@ -1,5 +1,8 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Collections;
+
+import java.util.Comparator;
 
 
 
@@ -126,6 +129,9 @@ public class JavaSupermarket {
 
     public static double ShowCart(double totale, ArrayList<Prodotto> Carrello){
 
+        Carrello.sort(Comparator.comparing(p -> p.nome));
+
+
         for(Prodotto p : Carrello){
             totale += p.prezzo;
         } 
@@ -133,6 +139,7 @@ public class JavaSupermarket {
         System.out.println("\nIl Carrello contiene: ");
 
         for(Prodotto p : Carrello){
+
             System.out.println(p.nome + ", " +p.prezzo + " Euro");
         }
 
