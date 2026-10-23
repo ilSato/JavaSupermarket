@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import com.google.gson.Gson;
 import java.io.FileWriter;
+import java.io.IOException;
 
 
 
@@ -100,7 +101,30 @@ public class JavaSupermarket {
 
             quantita = 0;
 
+
+            SaveCart(Carrello);
+
         }
+
+    }
+
+
+    public static void SaveCart(ArrayList<Prodotto> Carrello){
+
+        Gson gson = new Gson();
+
+        String jsonString = gson.toJson(Carrello);
+
+        try{
+            FileWriter writer = new FileWriter("Carrello.json");
+            writer.write(jsonString);
+            writer.close();
+            System.out.println("\n     *Il Carrello è stato salvato*");
+
+        } catch(IOException a){
+            a.printStackTrace();
+        }
+
 
     }
 
