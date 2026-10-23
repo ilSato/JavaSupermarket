@@ -366,6 +366,9 @@ public class JavaSupermarket {
     }
 
 
+    //Qui giu nei meandri del codice nemmeno io so come fa a funzionare. Chi sarà abbastanza coraggioso, o stolto, da modificarlo subirà l'ira del codice scritto a cazzo.
+
+
     public static void SaveBalance(double money){
 
         Gson gson = new Gson();
