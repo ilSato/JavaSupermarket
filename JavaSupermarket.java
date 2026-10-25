@@ -57,7 +57,6 @@ public class JavaSupermarket {
         //Scanner
         
         Scanner scanner = new Scanner(System.in);
-        Scanner intScanner = new Scanner(System.in);
         
 
         //Variabili
@@ -65,6 +64,7 @@ public class JavaSupermarket {
         double totale = 0;
         double money = 0;
         int quantita = 0;
+        boolean notFound = false;
 
 
         //Code
@@ -137,16 +137,45 @@ public class JavaSupermarket {
                     break;
             
                 default:
-                    quantita = intScanner.nextInt();
 
-                    String acquisto = visualizza;
+                    notFound = CheckExistence(Catalogo, visualizza, notFound);
 
-                    AdToCart(Carrello, Catalogo, acquisto, quantita);
+                    boolean again = true;
 
-                    totale = CalcTotal(totale, Carrello);
+                    if(!notFound){
+
+                        while(again){
+
+                            try{
+
+                                quantita = scanner.nextInt();
+
+                                String acquisto = visualizza;
+
+                                AdToCart(Carrello, Catalogo, acquisto, quantita);
+
+                                totale = CalcTotal(totale, Carrello);
+
+                                again= false;
+
+                                scanner.nextLine();
+                            
+                            }catch (Exception e) {
+
+                                System.out.println("Inserisci una Quantità numerica");
+
+                                again = true;
+
+                                scanner.nextLine();
+
+                            }
+
+                        }
+
+                    }
 
                     break;
-            }
+                }
 
             quantita = 0;
 
@@ -214,14 +243,38 @@ public class JavaSupermarket {
     }
 
 
-    public static void AdToCart(ArrayList<Prodotto> Carrello, ArrayList<Prodotto> Catalogo, String acquisto, int quantita){
+    public static boolean CheckExistence(ArrayList<Prodotto> Catalogo, String acquisto, boolean notFound){
 
-        int notFound = 0;
+        notFound = false;
 
         for(int j = 0; j < Catalogo.size(); j++){
 
             if(Catalogo.get(j).nome.equalsIgnoreCase(acquisto)){
-                System.out.println("\nCorrispondenza trovata.");
+
+                notFound = false;
+
+                break;
+            }
+            else{
+
+                notFound = true;
+            }
+
+        }
+
+        if(notFound){
+            System.out.println("\nNessuna Corrispondenza trovata");
+        }
+
+        return notFound;
+    }
+
+
+    public static void AdToCart(ArrayList<Prodotto> Carrello, ArrayList<Prodotto> Catalogo, String acquisto, int quantita){
+
+        for(int j = 0; j < Catalogo.size(); j++){
+
+            if(Catalogo.get(j).nome.equalsIgnoreCase(acquisto)){
 
                 for(int x = 0; x < quantita; x++){
 
@@ -229,20 +282,12 @@ public class JavaSupermarket {
 
                 }
 
+
                 System.out.println(quantita + " " + Catalogo.get(j).nome + " aggiunto al Carrello.");
 
-                notFound = j;
-
-                break;
             }
-        }
-
-
-        if(Catalogo.get(notFound).nome.equalsIgnoreCase(acquisto) == false){
-            System.out.println("\nNessuna Corrispondenza trovata.");
 
         }
-
 
         SaveCart(Carrello);
 
