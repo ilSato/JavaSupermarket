@@ -15,13 +15,14 @@ class Prodotto {
     String nome;
     double prezzo;
     int sconto;
+    boolean kg;
 
 
-    public Prodotto(String nomeIn, double prezzoIn, int scontoIn) {
+    public Prodotto(String nomeIn, double prezzoIn, boolean kgIn) {
 
         this.nome = nomeIn;
         this.prezzo = prezzoIn;
-        this.sconto = scontoIn;
+        this.kg = kgIn;
 
     }
 
@@ -48,31 +49,31 @@ public class JavaSupermarket {
 
         //Catalogo
 
-        Catalogo.add(new Prodotto("Pane a Fette", 2.50, 0));
-        Catalogo.add(new Prodotto("Marmellata", 4.00, 0));
-        Catalogo.add(new Prodotto("Nutella", 5.20, 0));
-        Catalogo.add(new Prodotto("Pesce Fresco", 11.30, 0));
-        Catalogo.add(new Prodotto("Latte Fresco 1L", 1.50, 0));
-        Catalogo.add(new Prodotto("Pasta di Semola 500g", 0.90, 0));
-        Catalogo.add(new Prodotto("Passata di Pomodoro", 1.20, 0));
-        Catalogo.add(new Prodotto("Olio Extra Vergine 1L", 6.50, 0));
-        Catalogo.add(new Prodotto("Farina Tipo 00", 0.95, 0));
-        Catalogo.add(new Prodotto("Zucchero Semolato", 1.10, 0));
-        Catalogo.add(new Prodotto("Caffè Macinato", 3.80, 0));
-        Catalogo.add(new Prodotto("Biscotti ai Cereali", 2.20, 0));
-        Catalogo.add(new Prodotto("Acqua Minerale 1.5L", 0.40, 0));
-        Catalogo.add(new Prodotto("Tonno in Olio d'Oliva", 2.80, 0));
-        Catalogo.add(new Prodotto("Mozzarella di Bufala", 2.30, 0));
-        Catalogo.add(new Prodotto("Prosciutto Cotto 100g", 3.10, 0));
-        Catalogo.add(new Prodotto("Parmigiano Reggiano", 5.50, 0));
-        Catalogo.add(new Prodotto("Uova Fresche x6", 1.80, 0));
-        Catalogo.add(new Prodotto("Mele Golden 1kg", 2.00, 0));
-        Catalogo.add(new Prodotto("Banane 1kg", 1.90, 0));
-        Catalogo.add(new Prodotto("Yogurt Greco", 1.15, 0));
-        Catalogo.add(new Prodotto("Cioccolato Fondente", 1.60, 0));
-        Catalogo.add(new Prodotto("Detersivo Piatti", 1.75, 0));
-        Catalogo.add(new Prodotto("Carta Igienica 4 rotoli", 2.50, 0));
-        Catalogo.add(new Prodotto("Detersivo Lavatrice", 4.90, 0));
+        Catalogo.add(new Prodotto("Pane a Fette", 2.50, false));
+        Catalogo.add(new Prodotto("Marmellata", 4.00, false));
+        Catalogo.add(new Prodotto("Nutella", 5.20, false));
+        Catalogo.add(new Prodotto("Pesce Fresco", 0.113, true));
+        Catalogo.add(new Prodotto("Latte Fresco", 1.50, false));
+        Catalogo.add(new Prodotto("Pasta di Semola", 0.90, false));
+        Catalogo.add(new Prodotto("Passata di Pomodoro", 1.20, false));
+        Catalogo.add(new Prodotto("Olio Extra Vergine", 6.50, false));
+        Catalogo.add(new Prodotto("Farina Tipo 00", 0.95, false));
+        Catalogo.add(new Prodotto("Zucchero Semolato", 1.10, false));
+        Catalogo.add(new Prodotto("Caffè Macinato", 3.80, false));
+        Catalogo.add(new Prodotto("Biscotti ai Cereali", 2.20, false));
+        Catalogo.add(new Prodotto("Acqua Minerale", 0.40, false));
+        Catalogo.add(new Prodotto("Tonno in Olio d'Oliva", 2.80, false));
+        Catalogo.add(new Prodotto("Mozzarella di Bufala", 2.30, false));
+        Catalogo.add(new Prodotto("Prosciutto Cotto", 0.31, true));
+        Catalogo.add(new Prodotto("Parmigiano Reggiano", 5.50, false));
+        Catalogo.add(new Prodotto("Uova Fresche", 1.80, false));
+        Catalogo.add(new Prodotto("Mele Golden", 0.02, true));
+        Catalogo.add(new Prodotto("Banane", 0.019, true));
+        Catalogo.add(new Prodotto("Yogurt Greco", 1.15, false));
+        Catalogo.add(new Prodotto("Cioccolato Fondente", 1.60, false));
+        Catalogo.add(new Prodotto("Detersivo Piatti", 1.75, false));
+        Catalogo.add(new Prodotto("Carta Igienica", 2.50, false));
+        Catalogo.add(new Prodotto("Detersivo Lavatrice", 4.90, false));
 
 
         //Scanner
@@ -84,8 +85,11 @@ public class JavaSupermarket {
 
         double totale = 0;
         double money = 0;
-        int quantita = 0;
+        int quantitaPack = 0;
+        double quantitaKg = 0;
+        double quantita = 0;
         boolean notFound = false;
+        boolean kg = false;
 
 
         //Code
@@ -109,7 +113,7 @@ public class JavaSupermarket {
 
             switch (visualizza.toLowerCase()) {
                 case "carrello":
-                    ShowCart(totale, Carrello);
+                    ShowCart(totale, Carrello, kg);
 
                     break;
 
@@ -162,6 +166,7 @@ public class JavaSupermarket {
                 default:
 
                     notFound = CheckExistence(Catalogo, visualizza, notFound);
+                    kg = CheckKg(Catalogo, visualizza, kg);
 
                     boolean again = true;
 
@@ -169,27 +174,58 @@ public class JavaSupermarket {
 
                         while(again){
 
-                            try{
+                            if(kg){
 
-                                quantita = scanner.nextInt();
+                                quantitaKg = scanner.nextDouble();
 
-                                String acquisto = visualizza;
+                                try{
 
-                                AdToCart(Carrello, Catalogo, acquisto, quantita);
+                                    String acquisto = visualizza;
 
-                                totale = CalcTotal(totale, Carrello);
+                                    AdToCart(Carrello, Catalogo, acquisto, quantitaKg, quantitaPack, kg);
 
-                                again= false;
+                                    totale = CalcTotal(totale, Carrello);
 
-                                scanner.nextLine();
+                                    again= false;
+
+                                    scanner.nextLine();
+                        
+                                }catch (Exception e) {
+
+                                    System.out.println("Inserisci una Quantità valida");
+
+                                    again = true;
+
+                                    scanner.nextLine();
+
+                                }
+
+                            }
+                            else{
+
+                                quantitaPack = scanner.nextInt();
+
+                                try{
+
+                                    String acquisto = visualizza;
+
+                                    AdToCart(Carrello, Catalogo, acquisto, quantitaKg, quantitaPack, kg);
+
+                                    totale = CalcTotal(totale, Carrello);
+
+                                    again= false;
+
+                                    scanner.nextLine();
                             
-                            }catch (Exception e) {
+                                }catch (Exception e) {
 
-                                System.out.println("Inserisci una Quantità numerica");
+                                    System.out.println("Inserisci una Quantità valida");
 
-                                again = true;
+                                    again = true;
 
-                                scanner.nextLine();
+                                    scanner.nextLine();
+
+                                }
 
                             }
 
@@ -260,9 +296,17 @@ public class JavaSupermarket {
 
         for(int i = 0; i < Catalogo.size(); i++){
 
-            System.out.println(Catalogo.get(i).nome);
+            if(Catalogo.get(i).kg){
 
+                System.out.println(Catalogo.get(i).nome + ", " + Catalogo.get(i).prezzo + " Euro/kg");
+            }
+            else{
+                
+                System.out.println(Catalogo.get(i).nome + ", " + Catalogo.get(i).prezzo + " Euro");
+            }
+            
         }
+
     }
 
 
@@ -293,20 +337,59 @@ public class JavaSupermarket {
     }
 
 
-    public static void AdToCart(ArrayList<Prodotto> Carrello, ArrayList<Prodotto> Catalogo, String acquisto, int quantita){
+    public static boolean CheckKg(ArrayList<Prodotto> Catalogo, String acquisto, boolean kg){
 
         for(int j = 0; j < Catalogo.size(); j++){
 
             if(Catalogo.get(j).nome.equalsIgnoreCase(acquisto)){
 
-                for(int x = 0; x < quantita; x++){
+                if(Catalogo.get(j).kg){
+                    kg = true;
 
-                    Carrello.add(Catalogo.get(j));
+                }
+                else{
+                    kg = false;
 
                 }
 
+                break;
+            }
 
-                System.out.println(quantita + " " + Catalogo.get(j).nome + " aggiunto al Carrello.");
+        }
+
+        return kg;
+    }
+
+
+    public static void AdToCart(ArrayList<Prodotto> Carrello, ArrayList<Prodotto> Catalogo, String acquisto, double quantitaKg, int quantitaPack, boolean kg){
+
+        for(int j = 0; j < Catalogo.size(); j++){
+
+            if(Catalogo.get(j).nome.equalsIgnoreCase(acquisto)){
+
+                if(kg){
+
+                    double quantitaTemp = Math.round(quantitaKg*100);
+
+                    for(double x = 0; x < quantitaTemp/100; x += 0.01){
+
+                        Carrello.add(Catalogo.get(j));
+
+                    }
+
+                    System.out.println(quantitaTemp/100 + " Kg di " + Catalogo.get(j).nome + " aggiunto al Carrello.");
+
+                }
+                else{
+
+                    for(int x = 0; x < quantitaPack; x++){
+
+                        Carrello.add(Catalogo.get(j));
+
+                    }
+
+                    System.out.println(quantitaPack + " " + Catalogo.get(j).nome + " aggiunto al Carrello.");
+                }
 
             }
 
@@ -317,7 +400,7 @@ public class JavaSupermarket {
     }
 
 
-    public static void ShowCart(double totale, ArrayList<Prodotto> Carrello){
+    public static void ShowCart(double totale, ArrayList<Prodotto> Carrello, boolean kg){
 
         Boolean addOne = false;
         Boolean hasMoreItems = false;
@@ -330,7 +413,7 @@ public class JavaSupermarket {
 
         System.out.println("\nIl Carrello contiene: ");
 
-        int num = 1;
+        double num = 1;
 
         String nome = "Via via. Vieni via con me";
 
@@ -360,7 +443,16 @@ public class JavaSupermarket {
                     num ++;
                 }
 
-                System.out.println(Carrello.get(y).nome + " x" + num + ", " + Carrello.get(y).prezzo*num + " Euro");
+                if(Carrello.get(y).kg){
+
+                    System.out.println(Carrello.get(y).nome + " x" + num/100 + "Kg, " + Carrello.get(y).prezzo*num + " Euro");
+
+                }
+                else{
+
+                    System.out.println(Carrello.get(y).nome + " x" + num + ", " + Carrello.get(y).prezzo*num + " Euro");
+
+                }
 
                 num = 0;
                 addOne = false;
