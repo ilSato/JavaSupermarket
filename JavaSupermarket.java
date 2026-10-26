@@ -52,6 +52,27 @@ public class JavaSupermarket {
         Catalogo.add(new Prodotto("Marmellata", 4.00, 0));
         Catalogo.add(new Prodotto("Nutella", 5.20, 0));
         Catalogo.add(new Prodotto("Pesce Fresco", 11.30, 0));
+        Catalogo.add(new Prodotto("Latte Fresco 1L", 1.50, 0));
+        Catalogo.add(new Prodotto("Pasta di Semola 500g", 0.90, 0));
+        Catalogo.add(new Prodotto("Passata di Pomodoro", 1.20, 0));
+        Catalogo.add(new Prodotto("Olio Extra Vergine 1L", 6.50, 0));
+        Catalogo.add(new Prodotto("Farina Tipo 00", 0.95, 0));
+        Catalogo.add(new Prodotto("Zucchero Semolato", 1.10, 0));
+        Catalogo.add(new Prodotto("Caffè Macinato", 3.80, 0));
+        Catalogo.add(new Prodotto("Biscotti ai Cereali", 2.20, 0));
+        Catalogo.add(new Prodotto("Acqua Minerale 1.5L", 0.40, 0));
+        Catalogo.add(new Prodotto("Tonno in Olio d'Oliva", 2.80, 0));
+        Catalogo.add(new Prodotto("Mozzarella di Bufala", 2.30, 0));
+        Catalogo.add(new Prodotto("Prosciutto Cotto 100g", 3.10, 0));
+        Catalogo.add(new Prodotto("Parmigiano Reggiano", 5.50, 0));
+        Catalogo.add(new Prodotto("Uova Fresche x6", 1.80, 0));
+        Catalogo.add(new Prodotto("Mele Golden 1kg", 2.00, 0));
+        Catalogo.add(new Prodotto("Banane 1kg", 1.90, 0));
+        Catalogo.add(new Prodotto("Yogurt Greco", 1.15, 0));
+        Catalogo.add(new Prodotto("Cioccolato Fondente", 1.60, 0));
+        Catalogo.add(new Prodotto("Detersivo Piatti", 1.75, 0));
+        Catalogo.add(new Prodotto("Carta Igienica 4 rotoli", 2.50, 0));
+        Catalogo.add(new Prodotto("Detersivo Lavatrice", 4.90, 0));
 
 
         //Scanner
@@ -129,6 +150,8 @@ public class JavaSupermarket {
                     money = Pay(money, totale);
 
                     Carrello.clear();
+
+                    SaveCart(Carrello);
 
                     SaveBalance(money);
 
