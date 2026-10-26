@@ -573,38 +573,19 @@ public class JavaSupermarket {
 
                     for(double x = 0; x < quantitaKg; x += 0.01){
 
-                        Carrello.remove(Catalogo.get(j));
+                        Carrello.remove(Carrello.get(j));
 
                     }
-                    
 
 
-
-                    /*
-                    for(int j = 0; j < quantita; j++){
-
-                        for(Prodotto p : Carrello){
-
-                            if(nome.equalsIgnoreCase(p.nome)){
-
-                                Carrello.remove(p);
-
-                                break;
-                            }
-                        }
-                    }
-                    */
-
-
-
-                    System.out.println(quantitaKg + " Kg di " + Catalogo.get(j).nome + " rimosso dal Carrello.");
+                    System.out.println(quantitaKg + " Kg di " + Catalogo.get(j).nome + " dal Carrello.");
 
                 }
                 else{
 
                     for(int x = 0; x < quantitaPack; x++){
 
-                        Carrello.remove(Catalogo.get(j));
+                        Carrello.remove(Carrello.get(j));
 
                     }
 
