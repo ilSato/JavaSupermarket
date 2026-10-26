@@ -135,11 +135,76 @@ public class JavaSupermarket {
 
                 case "remove":
 
-                    Carrello = RemoveFromCart(Carrello);
+                    visualizza = scanner.nextLine();
 
-                    SaveCart(Carrello);
+                    notFound = CheckExistence(Catalogo, visualizza, notFound);
 
-                    System.out.println("\nElemento/i Rimosso/i");
+                    kg = CheckKg(Catalogo, visualizza, kg);
+
+                    boolean again = true;
+
+                    if(!notFound){
+
+                        while(again){
+
+                            if(kg){
+
+                                quantitaKg = scanner.nextDouble();
+
+                                try{
+
+                                    String acquisto = visualizza;
+
+                                    RemoveFromCart(Carrello, Catalogo, visualizza, quantitaKg, quantitaPack, kg);
+
+                                    totale = CalcTotal(totale, Carrello);
+
+                                    again= false;
+
+                                    scanner.nextLine();
+                        
+                                }catch (Exception e) {
+
+                                    System.out.println("Inserisci una Quantità valida");
+
+                                    again = true;
+
+                                    scanner.nextLine();
+
+                                }
+
+                            }
+                            else{
+
+                                quantitaPack = scanner.nextInt();
+
+                                try{
+
+                                    String acquisto = visualizza;
+
+                                    RemoveFromCart(Carrello, Catalogo, visualizza, quantitaKg, quantitaPack, kg);
+
+                                    totale = CalcTotal(totale, Carrello);
+
+                                    again= false;
+
+                                    scanner.nextLine();
+                            
+                                }catch (Exception e) {
+
+                                    System.out.println("Inserisci una Quantità valida");
+
+                                    again = true;
+
+                                    scanner.nextLine();
+
+                                }
+
+                            }
+
+                        }
+
+                    }
                 
                     break;
 
@@ -168,7 +233,7 @@ public class JavaSupermarket {
                     notFound = CheckExistence(Catalogo, visualizza, notFound);
                     kg = CheckKg(Catalogo, visualizza, kg);
 
-                    boolean again = true;
+                    again = true;
 
                     if(!notFound){
 
@@ -498,31 +563,60 @@ public class JavaSupermarket {
     }
 
 
-    public static ArrayList<Prodotto> RemoveFromCart(ArrayList<Prodotto> Carrello){
+    public static void RemoveFromCart(ArrayList<Prodotto> Carrello, ArrayList<Prodotto> Catalogo, String acquisto, double quantitaKg, int quantitaPack, boolean kg){
 
-        Scanner scanner = new Scanner(System.in);
+        for(int j = 0; j < Catalogo.size(); j++){
 
-        String nome = scanner.nextLine();
+            if(Catalogo.get(j).nome.equalsIgnoreCase(acquisto)){
 
-        int quantita = scanner.nextInt();
+                if(kg){
 
-        for(int j = 0; j < quantita; j++){
+                    for(double x = 0; x < quantitaKg; x += 0.01){
 
-            for(Prodotto p : Carrello){
+                        Carrello.remove(Catalogo.get(j));
 
-                if(nome.equalsIgnoreCase(p.nome)){
+                    }
+                    
 
-                    Carrello.remove(p);
 
-                    break;
+
+                    /*
+                    for(int j = 0; j < quantita; j++){
+
+                        for(Prodotto p : Carrello){
+
+                            if(nome.equalsIgnoreCase(p.nome)){
+
+                                Carrello.remove(p);
+
+                                break;
+                            }
+                        }
+                    }
+                    */
+
+
+
+                    System.out.println(quantitaKg + " Kg di " + Catalogo.get(j).nome + " rimosso dal Carrello.");
+
                 }
+                else{
+
+                    for(int x = 0; x < quantitaPack; x++){
+
+                        Carrello.remove(Catalogo.get(j));
+
+                    }
+
+                    System.out.println(quantitaPack + " " + Catalogo.get(j).nome + " rimosso dal Carrello.");
+                }
+
             }
+
         }
 
         SaveCart(Carrello);
 
-    
-        return Carrello;
     }
 
 
